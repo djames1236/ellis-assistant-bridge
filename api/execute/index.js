@@ -1,43 +1,27 @@
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  runtime: 'edge',
 };
 
-function parseBody(req) {
-  return new Promise((resolve, reject) => {
-    let data = '';
-    req.on('data', chunk => data += chunk);
-    req.on('end', () => {
-      try {
-        resolve(JSON.parse(data));
-      } catch (err) {
-        reject(err);
-      }
-    });
-    req.on('error', err => reject(err));
-  });
-}
-
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+export default async function handler(request) {
+  if (request.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405 });
   }
 
   try {
-    const body = await parseBody(req);
+    const body = await request.json();
     const { summary, description, year, month, day, hour, minute, duration } = body;
 
     if (!summary || !description || !year || !month || !day || !hour || !minute || !duration) {
-      return res.status(400).json({ error: "Missing required scheduling fields" });
+      return new Response(JSON.stringify({ error: "Missing required scheduling fields" }), { status: 400 });
     }
 
-    return res.json({
+    return new Response(JSON.stringify({
       message: "Event scheduled (mock)",
       event: { summary, description, year, month, day, hour, minute, duration }
-    });
+    }), { status: 200 });
+
   } catch (err) {
     console.error("Error parsing body:", err);
-    return res.status(400).json({ error: "Invalid JSON body" });
+    return new Response(JSON.stringify({ error: "Invalid JSON body" }), { status: 400 });
   }
 }
