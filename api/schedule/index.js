@@ -1,4 +1,3 @@
-
 export default async function handler(req, res) {
   try {
     const { user_input } = req.body;
@@ -13,7 +12,8 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'OpenAI-Beta': 'assistants=v2'
       },
       body: JSON.stringify({
         assistant_id: assistant_id,
