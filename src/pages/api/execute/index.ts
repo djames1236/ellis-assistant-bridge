@@ -1,5 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 async function readRawBody(req: NextApiRequest): Promise<string> {
   const chunks: Buffer[] = [];
   for await (const chunk of req) {
