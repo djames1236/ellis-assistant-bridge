@@ -5,11 +5,11 @@ export const config = { api: { bodyParser: false } };
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
 
-  const decoder = new TextDecoder();
-  let rawBody = "";
+  const buffers = [];
   for await (const chunk of req) {
-    rawBody += decoder.decode(chunk, { stream: true });
+    buffers.push(chunk);
   }
+  const rawBody = Buffer.concat(buffers).toString("utf-8");
 
   let data;
   try { data = JSON.parse(rawBody); }
