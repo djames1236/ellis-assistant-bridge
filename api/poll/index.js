@@ -23,13 +23,25 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (data.status !== 'completed') {
-      return res.status(200).json({ status: data.status });
+    if (data.status === 'completed') {
+      return res.status(200).json({ status: 'completed', message: 'Run finished with no tool calls' });
     }
 
-    const tool_outputs = data.required_action?.submit_tool_outputs?.tool_calls || data.tool_calls;
+    if (data.status === 'requires_action') {
+      const toolCalls = data.required_action.submit_tool_outputs.tool_calls;
+      
+      const extracted = toolCalls.map(call => {
+        return {
+          tool_call_id: call.id,
+          function_name: call.function.name,
+          parameters: JSON.parse(call.function.arguments)
+        };
+      });
 
-    return res.status(200).json({ tool_outputs });
+      return res.status(200).json({ status: 'requires_action', tool_calls: extracted });
+    }
+
+    return res.status(200).json({ status: data.status });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
