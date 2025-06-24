@@ -1,0 +1,11 @@
+{
+  "name": "ellis-assistant-bridge",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.50.0",
+    "googleapis": "^130.0.0"
+  }
+}
+
+
