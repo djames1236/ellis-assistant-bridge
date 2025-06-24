@@ -1,21 +1,21 @@
 
 export default async function handler(req, res) {
   try {
-    const { summary, year, month, day, hour, minute, duration } = req.body;
+    const { summary, description, year, month, day, hour, minute, duration } = req.body;
 
-    if (!summary || !year || !month || !day || !hour || !minute || !duration) {
+    if (!summary || !description || !year || !month || !day || !hour || !minute || !duration) {
       return res.status(400).json({ error: 'Missing required scheduling fields' });
     }
 
-    // For now, simply log the payload — this is where your calendar integration would happen
+    // Mock calendar injection — replace with your calendar API call here
     console.log("Scheduling event:");
     console.log({
-      summary, year, month, day, hour, minute, duration
+      summary, description, year, month, day, hour, minute, duration
     });
 
     return res.status(200).json({
       message: "Event scheduled (mock)",
-      event: { summary, year, month, day, hour, minute, duration }
+      event: { summary, description, year, month, day, hour, minute, duration }
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
