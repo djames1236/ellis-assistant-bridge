@@ -1,11 +1,12 @@
-
 export default async function handler(req, res) {
   try {
-    const { user_input, assistant_id } = req.body;
+    const { user_input } = req.body;
 
-    if (!user_input || !assistant_id) {
-      return res.status(400).json({ error: 'Missing user_input or assistant_id' });
+    if (!user_input) {
+      return res.status(400).json({ error: 'Missing user_input' });
     }
+
+    const assistant_id = process.env.ASSISTANT_ID;
 
     const response = await fetch('https://api.openai.com/v1/threads/runs', {
       method: 'POST',
