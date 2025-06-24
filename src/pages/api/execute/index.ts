@@ -5,11 +5,7 @@ export const config = { api: { bodyParser: false } };
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
 
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of req) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-  const rawBody = Buffer.concat(chunks).toString("utf-8");
+  const rawBody = await (req as any).text();
 
   let data;
   try { data = JSON.parse(rawBody); }
