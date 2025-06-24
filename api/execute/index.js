@@ -3,7 +3,9 @@ export default async function handler(req, res) {
   try {
     const { summary, description, year, month, day, hour, minute, duration } = req.body;
 
-    if (!summary || !description || !year || !month || !day || !hour || !minute || !duration) {
+    if (!summary || !description || 
+        year === undefined || month === undefined || day === undefined ||
+        hour === undefined || minute === undefined || duration === undefined) {
       return res.status(400).json({ error: 'Missing required scheduling fields' });
     }
 
