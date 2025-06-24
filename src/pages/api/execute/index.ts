@@ -1,27 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const config = { api: { bodyParser: false } };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
 
-  const buffers = [];
-  for await (const chunk of req) {
-    buffers.push(chunk);
-  }
-  const rawBody = Buffer.concat(buffers).toString();
+  let rawBody = "";
+  for await (const chunk of req) rawBody += chunk;
   let body;
-  try {
-    body = JSON.parse(rawBody);
-  } catch (err) {
-    return res.status(400).json({ error: "Invalid JSON body" });
-  }
+  try { body = JSON.parse(rawBody); } 
+  catch { return res.status(400).json({ error: "Invalid JSON" }); }
 
   const { summary, description, year, month, day, hour, minute, duration } = body;
   if (!summary || !description || !year || !month || !day || !hour || !minute || !duration) {
