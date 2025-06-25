@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Ellis Assistant Backend Fully Online ✅</div>;
+  return <div>Ellis Backend Fully Online ✅</div>;
 }
