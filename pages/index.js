@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Ellis Backend is Live</div>;
+  return <div>Ellis Assistant Backend Live ✅</div>;
 }
