@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export const config = {
