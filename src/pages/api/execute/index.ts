@@ -1,4 +1,8 @@
-export const runtime = 'nodejs';
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -7,13 +11,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
+  let rawBody = '';
+  for await (const chunk of req) {
+    rawBody += chunk;
+  }
+
   let body;
   try {
-    const chunks = [];
-    for await (const chunk of req) {
-      chunks.push(chunk);
-    }
-    body = JSON.parse(Buffer.concat(chunks).toString());
+    body = JSON.parse(rawBody);
   } catch (err) {
     return res.status(400).json({ error: "Invalid JSON body" });
   }
