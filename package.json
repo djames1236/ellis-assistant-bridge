@@ -1,7 +1,7 @@
 {
   "name": "ellis-assistant-bridge",
   "version": "1.0.0",
-  "description": "Ellis Assistant Bridge for Vercel (Next.js 14+)",
+  "description": "Ellis Assistant Bridge for Vercel (Next.js 14+ App Router)",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
