@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     });
 
     // Call Reclaim API
-    await fetch('https://api.app.reclaim.ai/api/tasks', {
+    const response = await fetch('https://api.app.reclaim.ai/api/tasks', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.RECLAIM_API_KEY}`,
