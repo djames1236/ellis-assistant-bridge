@@ -12,7 +12,8 @@ export default async function handler(req, res) {
       day,
       hour,
       minute,
-      duration
+      duration,
+      category
     } = req.body;
 
     console.log('Received data:', {
@@ -23,7 +24,8 @@ export default async function handler(req, res) {
       day,
       hour,
       minute,
-      duration
+      duration,
+      category
     });
 
     // Call Reclaim API
@@ -37,7 +39,7 @@ export default async function handler(req, res) {
         title: summary,
         notes: description,
         durationMinutes: duration,
-        category: "WORK",
+        category: category,
         timeConstraints: [
           {
             start: `${year}-${month}-${day}T${hour}:${minute}:00Z`
