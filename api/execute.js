@@ -13,7 +13,9 @@ export default async function handler(req, res) {
       hour,
       minute,
       duration,
-      category
+      category,
+      dueDate,
+      timeSchemeId
     } = req.body;
 
     console.log('Received data:', {
@@ -25,8 +27,13 @@ export default async function handler(req, res) {
       hour,
       minute,
       duration,
-      category
+      category,
+      dueDate,
+      timeSchemeId
     });
+
+    // Compose start datetime
+    const startISO = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00Z`;
 
     // Call Reclaim API
     const response = await fetch('https://api.app.reclaim.ai/api/tasks', {
@@ -40,9 +47,20 @@ export default async function handler(req, res) {
         notes: description,
         durationMinutes: duration,
         eventCategory: category,
+        alwaysPrivate: true,
+        due: dueDate || null,
+        eventColor: null,
+        maxChunkSize: 8,
+        minChunkSize: 2,
+        onDeck: false,
+        priority: "P2",
+        snoozeUntil: null,
+        status: "NEW",
+        timeChunksRequired: 4,
+        timeSchemeId: timeSchemeId || null,
         timeConstraints: [
           {
-            start: `${year}-${month}-${day}T${hour}:${minute}:00Z`
+            start: startISO
           }
         ]
       })
