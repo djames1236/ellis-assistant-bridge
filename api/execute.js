@@ -37,6 +37,7 @@ export default async function handler(req, res) {
         title: summary,
         notes: description,
         durationMinutes: duration,
+        category: "TASK",
         timeConstraints: [
           {
             start: `${year}-${month}-${day}T${hour}:${minute}:00Z`
